@@ -1,0 +1,68 @@
+.App {
+  text-align: center;
+}
+
+.App-header {
+  background-color: rgba(80, 80, 100, 0.1);
+  min-height: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(2px + 2vmin);
+  color: white;
+}
+
+.Game {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 90%;
+}
+
+.Sidebar {
+  display: flex;
+  justify-content: center;
+  background-color: rgba(100, 100, 120, 0.1);
+  color: white;
+  width: 10vw;
+}
+
+svg {
+  fill: darkslategray;
+}
+svg g {
+  fill-opacity: 0.8;
+}
+svg g:hover {
+  fill-opacity: 1;
+}
+svg g.black {
+  fill: black;
+}
+svg g.white {
+  fill: white;
+}
+svg g.white text {
+  fill: black;
+}
+
+svg g polygon {
+  stroke: darkslategray;
+  stroke-width: 0.2;
+  transition: fill-opacity 0.2s;
+}
+svg g text {
+  font-size: 0.06em;
+  fill: #ffffff;
+  fill-opacity: 0.8;
+  transition: fill-opacity 0.2s;
+}
+svg path {
+  fill: none;
+  stroke: hsl(60, 20%, 70%);
+  stroke-width: 0.4em;
+  stroke-opacity: 0.3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
