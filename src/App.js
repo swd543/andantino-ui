@@ -17,20 +17,24 @@ class App extends React.Component {
 
   findPossible = () => {
     let { hexagons } = this.state;
+    const { currentIteration } = this.state;
     const selected = hexagons.filter(h => h.selected);
-    // console.log(selected, hexagons.filter(h => h.possible));
-    // selected.forEach(selection => HexUtils.neighbours(selection).forEach(s => hexagons[this.indexOf(s)].possible = true));
-    selected.forEach(selection => HexUtils.neighbours(selection).forEach(s => {
-      const index = this.indexOf(s);
-      if (hexagons[index].hasOwnProperty('neighbours')) {
-        hexagons[index].neighbours++;
-      } else {
-        hexagons[index].neighbours = 1;
-      }
-      if (hexagons[index].neighbours > 2) {
-        hexagons[index].possible = true;
-      }
-    }))
+    // Remove the meta property 'neighbours' for each hex
+    hexagons.filter(h => h.neighbours).forEach(h => delete h.neighbours);
+    if (currentIteration === 0) {
+      selected.forEach(selection => HexUtils.neighbours(selection).forEach(s => hexagons[this.indexOf(s)].possible = true));
+    } else {
+      selected.forEach(selection => HexUtils.neighbours(selection).forEach(s => {
+        const index = this.indexOf(s);
+        if (hexagons[index].hasOwnProperty('neighbours')) {
+          hexagons[index].neighbours++;
+        } else {
+          hexagons[index].neighbours = 1;
+        }
+        hexagons[index].possible = hexagons[index].neighbours >= 2 ? true : false;
+      }))
+      console.log(selected);
+    }
     this.setState(hexagons);
   }
 
@@ -48,7 +52,7 @@ class App extends React.Component {
     }
     else {
       hexagons[index].selected = this.state.currentIteration % 2 === 0 ? 'white' : 'black';
-      this.checkWin(index) && alert("Hey, we have a winner!");
+      // this.checkWin(index) && alert("Hey, we have a winner!");
       currentIteration++;
       this.setState({ hexagons, currentIteration, previousIndex: index });
       this.indexOf(hexagons[index]);
