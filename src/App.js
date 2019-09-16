@@ -10,12 +10,32 @@ class App extends React.Component {
     this.SVGheight = this.SVGwidth / 2 * 1.732;
     this.gridSize = 10;
     const hexagons = GridGenerator.hexagon(this.gridSize);
-    this.state = { hexagons, currentIteration: 0 };
-    this.r = React.createRef();
+    //this.state = { hexagons: [{ q: 0, r: 0, s: 1 },{q:0,r:2,s:3}], currentIteration: 0 };
+    this.resetState = { hexagons, currentIteration: 0 };
+    this.state = this.resetState;
   }
 
-  checkWin = (index) => {
-    return false;
+  findPossible = () => {
+    let { hexagons } = this.state;
+    const selected = hexagons.filter(h => h.selected);
+    // console.log(selected, hexagons.filter(h => h.possible));
+    // selected.forEach(selection => HexUtils.neighbours(selection).forEach(s => hexagons[this.indexOf(s)].possible = true));
+    selected.forEach(selection => HexUtils.neighbours(selection).forEach(s => {
+      const index = this.indexOf(s);
+      if (hexagons[index].hasOwnProperty('neighbours')) {
+        hexagons[index].neighbours++;
+      } else {
+        hexagons[index].neighbours = 1;
+      }
+      if (hexagons[index].neighbours > 2) {
+        hexagons[index].possible = true;
+      }
+    }))
+    this.setState(hexagons);
+  }
+
+  indexOf = (p) => {
+    return this.state.hexagons.findIndex(h => HexUtils.equals(h, p));
   }
 
   handleClick = (index) => () => {
@@ -23,16 +43,29 @@ class App extends React.Component {
     if (hexagons[index].selected) {
       alert("One does not simply break the galactic code by selecting what's already selected.")
     }
+    else if (currentIteration > 1 && !hexagons[index].possible) {
+      alert("You cant select that, mate.")
+    }
     else {
       hexagons[index].selected = this.state.currentIteration % 2 === 0 ? 'white' : 'black';
       this.checkWin(index) && alert("Hey, we have a winner!");
       currentIteration++;
-      this.setState({ hexagons, currentIteration });
-      console.log(this.state, hexagons[index])
+      this.setState({ hexagons, currentIteration, previousIndex: index });
+      this.indexOf(hexagons[index]);
+      this.findPossible();
     }
   }
 
-  HexLayout = (props) => <Layout width={this.SVGwidth} height={this.SVGheight}>{props.children.map(e => e)}</Layout>
+  handleUndo = () => {
+    let { hexagons, currentIteration, previousIndex } = this.state;
+    delete hexagons[previousIndex].selected;
+    currentIteration--;
+    this.setState({ hexagons, currentIteration, previousIndex });
+  }
+
+  handleReset = () => {
+    this.setState(this.resetState);
+  }
 
   render() {
     return (
@@ -50,18 +83,23 @@ class App extends React.Component {
             <p title="I dont get paid for this, so I keep it simple by naming black and white. Not to be confused with racism." style={{ cursor: 'pointer' }}>
               {(this.state.currentIteration % 2 === 0 ? 'White' : 'Black') + ' to play'}
             </p>
+            <p>
+              Iteration {this.state.currentIteration}
+            </p>
+            <button style={{ backgroundColor: 'rgba(0,0,0,0.2)', color: 'white', padding: 16, border: '0px none' }} onClick={this.handleUndo}>Undo</button>
+            <button style={{ backgroundColor: 'rgba(0,0,0,0.2)', color: 'white', padding: 16, border: '0px none' }} onClick={this.handleReset}>Reset</button>
           </div>
           <div className="Game">
             <HexGrid width={this.SVGwidth} height={this.SVGheight}>
-              <Layout size={{ x: 3, y: 3 }} flat={false}>
+              <Layout size={{ x: 3, y: 3 }} flat={false} ref={this.layout}>
                 {this.state.hexagons.map((hex, i) => (<Hexagon key={i}
                   q={hex.q}
                   r={hex.r}
                   s={hex.s}
-                  className={hex.selected || null}
+                  className={hex.selected || (hex.possible ? 'possible' : null)}
                   onClick={this.handleClick(i)}
                   data={hex}>
-                  <Text>{HexUtils.getID(hex)} {i}</Text>
+                  <Text style={{ cursor: 'pointer' }}>{HexUtils.getID(hex)}</Text>
                 </Hexagon>))}
               </Layout>
             </HexGrid>

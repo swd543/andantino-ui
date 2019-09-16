@@ -22,6 +22,7 @@
 
 .Sidebar {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   background-color: rgba(100, 100, 120, 0.1);
   color: white;
@@ -39,6 +40,9 @@ svg g:hover {
 }
 svg g.black {
   fill: black;
+}
+svg g.possible {
+  fill: darkolivegreen;
 }
 svg g.white {
   fill: white;
