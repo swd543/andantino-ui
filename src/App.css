@@ -69,10 +69,11 @@ svg g polygon {
   transition: fill-opacity 0.2s;
 }
 svg g text {
-  font-size: 0.06em;
+  font-size: 0.08em;
   fill: #ffffff;
   fill-opacity: 0.8;
   transition: fill-opacity 0.2s;
+  cursor: default;
 }
 svg path {
   fill: none;

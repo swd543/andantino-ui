@@ -5,7 +5,7 @@ import "./App.css";
 class App extends React.Component {
   constructor() {
     super();
-    this.SVGwidth = 1200;
+    this.SVGwidth = 1100;
     // Find the height of the SVG when width is given
     this.SVGheight = this.SVGwidth / 2 * 1.732;
     this.gridSize = 10;
@@ -46,7 +46,7 @@ class App extends React.Component {
     if (hexagons[index].selected) {
       alert("One does not simply break the galactic code by selecting what's already selected.")
     }
-    else if (currentIteration > 1 && !hexagons[index].possible) {
+    else if (currentIteration > 0 && !hexagons[index].possible) {
       alert("You cant select that, mate.")
     }
     else {
@@ -94,7 +94,7 @@ class App extends React.Component {
           </div>
           <div className="Game">
             <HexGrid width={this.SVGwidth} height={this.SVGheight}>
-              <Layout size={{ x: 3, y: 3 }} flat={false} ref={this.layout}>
+              <Layout size={{ x: 3, y: 3 }} flat={false}>
                 {this.state.hexagons.map((hex, i) => (<Hexagon key={i}
                   q={hex.q}
                   r={hex.r}
@@ -102,7 +102,7 @@ class App extends React.Component {
                   className={hex.selected || (hex.possible ? 'possible' : null)}
                   onClick={this.handleClick(i)}
                   data={hex}>
-                  <Text style={{ cursor: 'pointer' }}>{HexUtils.getID(hex)}</Text>
+                  <Text>{HexUtils.getID(hex)}</Text>
                 </Hexagon>))}
               </Layout>
             </HexGrid>
