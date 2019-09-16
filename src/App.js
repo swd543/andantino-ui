@@ -2,7 +2,7 @@ import React from "react";
 import { GridGenerator, Hexagon, HexGrid, Layout, Text, HexUtils } from 'react-hexgrid';
 import "./App.css";
 
-class App extends React.Component {
+class App extends React.PureComponent {
   constructor() {
     super();
     this.SVGwidth = 1100;
@@ -11,7 +11,7 @@ class App extends React.Component {
     this.gridSize = 10;
     const hexagons = GridGenerator.hexagon(this.gridSize);
     this.resetState = { hexagons, currentIteration: 0 };
-    this.state = this.resetState;
+    this.state = JSON.parse(window.localStorage.getItem('state')) || this.resetState;
   }
 
   findPossible = () => {
@@ -53,9 +53,9 @@ class App extends React.Component {
       hexagons[index].selected = this.state.currentIteration % 2 === 0 ? 'white' : 'black';
       // this.checkWin(index) && alert("Hey, we have a winner!");
       currentIteration++;
-      this.setState({ hexagons, currentIteration, previousIndex: index });
-      this.indexOf(hexagons[index]);
+      const newState = { hexagons, currentIteration, previousIndex: index };
       this.findPossible();
+      this.setState(newState, () => { window.localStorage.setItem('state', JSON.stringify(newState)); });
     }
   }
 
@@ -90,7 +90,7 @@ class App extends React.Component {
               Iteration {this.state.currentIteration}
             </p>
             <button onClick={this.handleUndo}>Undo</button>
-            <button onClick={this.handleReset}>Reset</button>
+            <button onClick={this.handleReset}>New game</button>
           </div>
           <div className="Game">
             <HexGrid width={this.SVGwidth} height={this.SVGheight}>

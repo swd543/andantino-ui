@@ -1,5 +1,15 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## TODO
+
+- [x] Create base UI
+- [x] Create black and white player
+- [x] Highlight valid moves based on nearest neighbour
+- [x] Local session storage
+- [ ] Undo function
+- [ ] Check winning conditions
+- [ ] Export/import last state
+
 ## Available Scripts
 
 In the project directory, you can run:
