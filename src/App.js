@@ -10,7 +10,6 @@ class App extends React.Component {
     this.SVGheight = this.SVGwidth / 2 * 1.732;
     this.gridSize = 10;
     const hexagons = GridGenerator.hexagon(this.gridSize);
-    //this.state = { hexagons: [{ q: 0, r: 0, s: 1 },{q:0,r:2,s:3}], currentIteration: 0 };
     this.resetState = { hexagons, currentIteration: 0 };
     this.state = this.resetState;
   }
@@ -90,8 +89,8 @@ class App extends React.Component {
             <p>
               Iteration {this.state.currentIteration}
             </p>
-            <button style={{ backgroundColor: 'rgba(0,0,0,0.2)', color: 'white', padding: 16, border: '0px none' }} onClick={this.handleUndo}>Undo</button>
-            <button style={{ backgroundColor: 'rgba(0,0,0,0.2)', color: 'white', padding: 16, border: '0px none' }} onClick={this.handleReset}>Reset</button>
+            <button onClick={this.handleUndo}>Undo</button>
+            <button onClick={this.handleReset}>Reset</button>
           </div>
           <div className="Game">
             <HexGrid width={this.SVGwidth} height={this.SVGheight}>

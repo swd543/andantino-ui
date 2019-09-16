@@ -29,6 +29,18 @@
   width: 10vw;
 }
 
+.Sidebar > button {
+  background-color: rgba(80, 80, 100, 0.1);
+  border: 0px none;
+  color: white;
+  padding: 16px;
+  transition: 200ms all;
+}
+
+.Sidebar > button:hover {
+  background-color: rgba(80, 80, 100, 0.5);
+}
+
 svg {
   fill: darkslategray;
 }
@@ -42,7 +54,7 @@ svg g.black {
   fill: black;
 }
 svg g.possible {
-  fill: darkolivegreen;
+  fill: darkcyan;
 }
 svg g.white {
   fill: white;
