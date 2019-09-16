@@ -41,6 +41,10 @@
   background-color: rgba(80, 80, 100, 0.5);
 }
 
+.Sidebar > * {
+  margin-top: 4px;
+}
+
 svg {
   fill: darkslategray;
 }

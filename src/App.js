@@ -10,7 +10,7 @@ class App extends React.PureComponent {
     this.SVGheight = this.SVGwidth / 2 * 1.732;
     this.gridSize = 10;
     const hexagons = GridGenerator.hexagon(this.gridSize);
-    this.resetState = { hexagons, currentIteration: 0 };
+    this.resetState = { hexagons, currentIteration: 0, havannah: false };
     this.state = JSON.parse(window.localStorage.getItem('state')) || this.resetState;
   }
 
@@ -91,6 +91,11 @@ class App extends React.PureComponent {
             </p>
             <button onClick={this.handleUndo}>Undo</button>
             <button onClick={this.handleReset}>New game</button>
+            <span>
+              <input type="checkbox" name="havannah" onClick={(e) => this.setState({ [e.target.name]: e.target.checked })} />
+              <label>Havannah</label>
+            </span>
+
           </div>
           <div className="Game">
             <HexGrid width={this.SVGwidth} height={this.SVGheight}>
@@ -102,7 +107,8 @@ class App extends React.PureComponent {
                   className={hex.selected || (hex.possible ? 'possible' : null)}
                   onClick={this.handleClick(i)}
                   data={hex}>
-                  <Text>{HexUtils.getID(hex)}</Text>
+                  {!this.state.havannah ? <Text>{HexUtils.getID(hex)}</Text> :
+                    <Text>{`${String.fromCharCode(65 + hex.q + hex.r + this.gridSize)},${this.gridSize - hex.q - hex.s}`}</Text>}
                 </Hexagon>))}
               </Layout>
             </HexGrid>

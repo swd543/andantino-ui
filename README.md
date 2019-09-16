@@ -6,6 +6,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 - [x] Create black and white player
 - [x] Highlight valid moves based on nearest neighbour
 - [x] Local session storage
+- [x] Havannah notation
 - [ ] Undo function
 - [ ] Check winning conditions
 - [ ] Export/import last state
