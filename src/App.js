@@ -9,9 +9,15 @@ class App extends React.PureComponent {
     // Find the height of the SVG when width is given
     this.SVGheight = this.SVGwidth / 2 * 1.732;
     this.gridSize = 10;
-    const hexagons = GridGenerator.hexagon(this.gridSize);
-    this.resetState = { hexagons, currentIteration: 0, havannah: false };
-    this.state = JSON.parse(window.localStorage.getItem('state')) || this.resetState;
+    this.getResetState = () => {
+      const hexagons = GridGenerator.hexagon(this.gridSize);
+      return { hexagons, currentIteration: 0, havannah: false };
+    }
+    this.state = JSON.parse(window.localStorage.getItem('state')) || this.getResetState();
+  }
+
+  checkWin = () => {
+    return false;
   }
 
   findPossible = () => {
@@ -32,7 +38,6 @@ class App extends React.PureComponent {
         }
         hexagons[index].possible = hexagons[index].neighbours >= 2 ? true : false;
       }))
-      console.log(selected);
     }
     this.setState(hexagons);
   }
@@ -48,6 +53,9 @@ class App extends React.PureComponent {
     }
     else if (currentIteration > 0 && !hexagons[index].possible) {
       alert("You cant select that, mate.")
+    }
+    else if (this.checkWin()) {
+      alert("We have a winner!")
     }
     else {
       hexagons[index].selected = this.state.currentIteration % 2 === 0 ? 'white' : 'black';
@@ -67,7 +75,7 @@ class App extends React.PureComponent {
   }
 
   handleReset = () => {
-    this.setState(this.resetState);
+    this.setState(this.getResetState());
   }
 
   render() {

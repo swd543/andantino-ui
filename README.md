@@ -8,7 +8,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 - [x] Local session storage
 - [x] Havannah notation
 - [ ] Undo function
-- [ ] Check winning conditions
+- [ ] Check linear win
+- [ ] Check capture win
 - [ ] Export/import last state
 
 ## Available Scripts
