@@ -8,10 +8,12 @@ class App extends React.PureComponent {
     this.SVGwidth = 1100;
     // Find the height of the SVG when width is given
     this.SVGheight = this.SVGwidth / 2 * 1.732;
+    // Set grid size
     this.gridSize = 10;
+    //Set a default state for our app
     this.getResetState = () => {
       const hexagons = GridGenerator.hexagon(this.gridSize);
-      return { hexagons, currentIteration: 0, havannah: false };
+      return { hexagons, currentIteration: 0 };
     }
     this.state = JSON.parse(window.localStorage.getItem('state')) || this.getResetState();
   }
@@ -63,7 +65,7 @@ class App extends React.PureComponent {
       currentIteration++;
       const newState = { hexagons, currentIteration, previousIndex: index };
       this.findPossible();
-      this.setState(newState, () => { window.localStorage.setItem('state', JSON.stringify(newState)); });
+      this.setState(newState, () => { window.localStorage.setItem('state', JSON.stringify(newState)) });
     }
   }
 
@@ -75,7 +77,7 @@ class App extends React.PureComponent {
   }
 
   handleReset = () => {
-    this.setState(this.getResetState());
+    this.setState(this.getResetState(), () => window.localStorage.setItem('state', JSON.stringify(this.getResetState())));
   }
 
   render() {
