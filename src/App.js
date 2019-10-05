@@ -28,6 +28,8 @@ class App extends React.PureComponent {
   handleClick = (hex) => () => {
     if (!this.checkPossible(hex)) {
       alert("Mate, that move is illegal.")
+    } else if (this.state.hexagons.isGame) {
+      alert("Game over, man. You can't play anymore.")
     } else {
       hex.value = this.state.hexagons.player
       fetch('move', { method: 'PUT', body: JSON.stringify(hex) })
@@ -45,6 +47,7 @@ class App extends React.PureComponent {
   }
 
   checkPossible = (hex) => {
+    // TODO: Check if black always starts from centre
     return this.state.hexagons.currentIteration <= 0 || (this.state.hexagons.currentIteration === 1 && hex.value > 0) || (hex.value > 1 && hex.value < 7)
   }
 
